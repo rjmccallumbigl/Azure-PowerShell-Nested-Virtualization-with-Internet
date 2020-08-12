@@ -8,25 +8,27 @@
 
 #Set the Parameters for the script
 param (
-        [Parameter(Mandatory=$true, ParameterSetName="vmName", HelpMessage="The name of the source VM.")]
+        [Parameter(Mandatory=$true, HelpMessage="The name of the source VM.")]
+        [Alias('n')]
         [string] 
         $vmName,
-        [Parameter(Mandatory=$true, ParameterSetName="resourceGroupName", HelpMessage="The name of the source VM's Resource Group.")]
+        [Parameter(Mandatory=$true, HelpMessage="The name of the source VM's Resource Group.")]
+        [Alias('g')]
         [string] 
         $resourceGroupName,
-        [Parameter(Mandatory=$true, ParameterSetName="rescueUsername", HelpMessage="The username you will use on your Rescue VM.")]
+        [Parameter(Mandatory=$true, HelpMessage="The username you will use on your Rescue VM.")]
+        [Alias('u')]
         [string]
         $rescueUsername,
-        [Parameter(Mandatory=$true, ParameterSetName="rescuePassword", HelpMessage="The password you will use on your Rescue VM.")]
-        [SecureString]
+        [Parameter(Mandatory=$true, HelpMessage="The password you will use on your Rescue VM.")]
+        [Alias('p')]
+        [string]
         $rescuePassword
         )
 
 # Make sure vm-repair is installed and updated
 az extension add -n vm-repair
 az extension update -n vm-repair
-
-# az vm repair create -g RG_PELO_EDGE_EAST_US -n stEdg-hdfxq --repair-username username --repair-password password!234 --verbose
 
 # Create repair VM, attach OS disk from source VM
 $rescueVM = az vm repair create -g $resourceGroupName -n $vmName --repair-username $rescueUsername --repair-password $rescuePassword --verbose
@@ -41,16 +43,17 @@ $rescueVMResourceGroup = $RescueVMRegexResults[1].Value;
 # Resize VM to a v3
 az vm resize -g $rescueVMResourceGroup -n $rescueVMName --size Standard_D2s_v3
 
-# Install Hyper V remotely, change your script path accordingly
+# Make sure VM has started
+Start-AzVM -ResourceGroupName $rescueVMResourceGroup -Name $rescueVMName
+
+# Install Hyper V remotely
 Invoke-AzVMRunCommand -ResourceGroupName $rescueVMResourceGroup -Name $rescueVMName -CommandId 'RunPowerShellScript' -ScriptPath '.\dependencies\installHyperV.ps1'
 
-# Sleep for 2 minutes until Hyper V is finished installing
+# Sleep for 2 minutes until Hyper V is finished installing and VM is done rebooting
 Start-Sleep -s 120
 
-# Set up Hyper V remotely, change your script path accordingly
+# Set up Hyper V remotely
 Invoke-AzVMRunCommand -ResourceGroupName $rescueVMResourceGroup -Name $rescueVMName -CommandId 'RunPowerShellScript' -ScriptPath '.\dependencies\provisionForNestedVirtualization.ps1'
 
 # Create Hyper V VM remotely
 Invoke-AzVMRunCommand -ResourceGroupName $rescueVMResourceGroup -Name $rescueVMName -CommandId 'RunPowerShellScript' -ScriptPath '.\dependencies\createNewHyperVVM.ps1'
-
-
