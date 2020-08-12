@@ -1,2 +1,2 @@
-# Install Hyper V and restart
+# Install Hyper V and restart automatically
 Install-WindowsFeature -Name Hyper-V -IncludeManagementTools -Restart

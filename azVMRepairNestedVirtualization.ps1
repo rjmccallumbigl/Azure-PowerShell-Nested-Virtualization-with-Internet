@@ -4,9 +4,8 @@
 # 
 
 # Create repair VM
-
 az extension add -n vm-repair
-az vm repair create -g RG_PELO_EDGE_EAST_US -n stEdg-hdfxq --verbose
+az vm repair create -g RG_PELO_EDGE_EAST_US -n stEdg-hdfxq --repair-username username --repair-password password!234 --verbose
 
 #resize VM to a v3
 az vm resize -g "repair-stEdg-hdfxq-20200807183824.638282" -n "repair-stEdg-h_" --size Standard_D2s_v3
