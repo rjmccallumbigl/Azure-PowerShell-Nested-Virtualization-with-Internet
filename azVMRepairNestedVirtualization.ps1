@@ -1,7 +1,10 @@
-# 
-# 
-# 
-# 
+# Runs az vm repair on a problem VM to create a Rescue VM with the source VM's OS disk attached as a data disk. 
+# Then configures the new Rescue VM for Hyper V, creates a new Hyper V VM, and sets it up with the data disk as a new primary disk (with internet).
+# Run this file with the proper parameters.
+# Make sure you have the following files as well:
+#   .\dependencies\installHyperV.ps1
+#   .\dependencies\provisionForNestedVirtualization.ps1
+#   .\dependencies\createNewHyperVVM.ps1
 
 # Create repair VM
 az extension add -n vm-repair
