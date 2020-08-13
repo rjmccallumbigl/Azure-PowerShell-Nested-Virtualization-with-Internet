@@ -1,5 +1,5 @@
 ###########################################################################################################################################################
-#
+<#
 # .SYNOPSIS
 # Configures Rescue VM for troubleshooting using Nested Virtualization.
 #
@@ -30,7 +30,7 @@
 #
 # .EXAMPLE
 #       azVMRepairNestedVirtualization -n vmName -g ResourceGroup -u Username -p Password!234
-# 
+#>
 ###########################################################################################################################################################
 
 #Set the Parameters for the script
