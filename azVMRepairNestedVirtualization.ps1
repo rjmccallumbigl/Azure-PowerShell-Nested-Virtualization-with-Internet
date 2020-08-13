@@ -91,7 +91,6 @@ if ($storage) {
                 Write-Host $Error
         }       
 }
-# az vm boot-diagnostics enable --name $rescueVMName --resource-group $rescueVMResourceGroup --storage https://mystor.blob.core.windows.net/
 
 # Install Hyper V remotely
 Invoke-AzVMRunCommand -ResourceGroupName $rescueVMResourceGroup -Name $rescueVMName -CommandId 'RunPowerShellScript' -ScriptPath '.\dependencies\installHyperV.ps1'
