@@ -58,6 +58,14 @@ az vm resize -g $rescueVMResourceGroup -n $rescueVMName --size Standard_D2s_v3
 # Make sure VM has started
 Start-AzVM -ResourceGroupName $rescueVMResourceGroup -Name $rescueVMName
 
+# Verify and enable boot diagnostics
+$storage = Get-AzStorageAccount -ResourceGroupName $rescueVMResourceGroup
+if ($storage) {
+        $getRescueVM = Get-AzVM -ResourceGroupName $rescueVMResourceGroup -Name $rescueVMName
+        Set-AzVMBootDiagnostic -VM $getRescueVM -Enable -ResourceGroupName $rescueVMResourceGroup -StorageAccountName $storage
+}
+# az vm boot-diagnostics enable --name $rescueVMName --resource-group $rescueVMResourceGroup --storage https://mystor.blob.core.windows.net/
+
 # Install Hyper V remotely
 Invoke-AzVMRunCommand -ResourceGroupName $rescueVMResourceGroup -Name $rescueVMName -CommandId 'RunPowerShellScript' -ScriptPath '.\dependencies\installHyperV.ps1'
 
