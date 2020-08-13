@@ -1,15 +1,36 @@
 ###########################################################################################################################################################
 #
-# Runs az vm repair on a problem VM to create a Rescue VM with the source VM's OS disk attached as a data disk. 
-# Then configures the new Rescue VM for Hyper V, creates a new Hyper V VM, and sets it up with the data disk as a new primary disk (with internet).
+# .SYNOPSIS
+# Configures Rescue VM for troubleshooting using Nested Virtualization.
 #
-# First change the PowerShell directory to Run this file with the proper parameters.
+# .DESCRIPTION
+#       Configures Rescue VM for troubleshooting using Nested Virtualization.
+#       Runs az vm repair on a problem VM to create a Rescue VM with the source VM's OS disk attached as a data disk. 
+#       Then configures the new Rescue VM for Hyper V, creates a new Hyper V VM, and sets it up with the data disk as a new primary disk (with internet).
 #
-# Make sure you have the following files as well:
-#   .\dependencies\installHyperV.ps1
-#   .\dependencies\provisionForNestedVirtualization.ps1
-#   .\dependencies\createNewHyperVVM.ps1
+#       First change the PowerShell directory to whatever directory this script is in.
+#       Then run this file with the proper parameters.
 #
+#       Make sure you have the following files as well:
+#               .\dependencies\installHyperV.ps1
+#               .\dependencies\provisionForNestedVirtualization.ps1
+#               .\dependencies\createNewHyperVVM.ps1
+#
+# .PARAMETER vmName
+#       The name of the source VM.
+#
+# .PARAMETER resourceGroupName
+#       The name of the source VM's Resource Group.
+#
+# .PARAMETER rescueUsername
+#       The username you will use on your Rescue VM.
+#
+# .PARAMETER rescuePassword
+#       The password you will use on your Rescue VM.
+#
+# .EXAMPLE
+#       azVMRepairNestedVirtualization -n vmName -g ResourceGroup -u Username -p Password!234
+# 
 ###########################################################################################################################################################
 
 #Set the Parameters for the script
