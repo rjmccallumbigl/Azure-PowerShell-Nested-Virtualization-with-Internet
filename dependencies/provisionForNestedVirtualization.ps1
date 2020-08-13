@@ -1,6 +1,12 @@
+###########################################################################################################################################################
+#
+# Provision Rescue VM for Nested Virtualization with networking
 # Make sure you have enabled Hyper-V first
-# Copied from the follow Git repo
+# Copied from the following Git repo
 # https://github.com/Azure/azure-devtestlab/blob/master/samples/ClassroomLabs/Scripts/HyperV/SetupForNestedVirtualization.ps1
+# More info:
+#
+###########################################################################################################################################################
 
 <#
 The MIT License (MIT)
