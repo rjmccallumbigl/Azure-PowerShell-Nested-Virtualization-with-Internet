@@ -35,23 +35,23 @@
 
 #Set the Parameters for the script
 param (
-        [Parameter(Mandatory=$true, HelpMessage="The name of the source VM.")]
+        [Parameter(Mandatory = $true, HelpMessage = "The name of the source VM.")]
         [Alias('n')]
         [string] 
         $vmName,
-        [Parameter(Mandatory=$true, HelpMessage="The name of the source VM's Resource Group.")]
+        [Parameter(Mandatory = $true, HelpMessage = "The name of the source VM's Resource Group.")]
         [Alias('g')]
         [string] 
         $resourceGroupName,
-        [Parameter(Mandatory=$true, HelpMessage="The username you will use on your Rescue VM.")]
+        [Parameter(Mandatory = $true, HelpMessage = "The username you will use on your Rescue VM.")]
         [Alias('u')]
         [string]
         $rescueUsername,
-        [Parameter(Mandatory=$true, HelpMessage="The password you will use on your Rescue VM.")]
+        [Parameter(Mandatory = $true, HelpMessage = "The password you will use on your Rescue VM.")]
         [Alias('p')]
         [SecureString]
         $rescuePassword
-        )
+)
 
 # Make sure vm-repair is installed and updated
 az extension add -n vm-repair
@@ -83,7 +83,13 @@ Start-AzVM -ResourceGroupName $rescueVMResourceGroup -Name $rescueVMName
 $storage = Get-AzStorageAccount -ResourceGroupName $rescueVMResourceGroup
 if ($storage) {
         $getRescueVM = Get-AzVM -ResourceGroupName $rescueVMResourceGroup -Name $rescueVMName
-        Set-AzVMBootDiagnostic -VM $getRescueVM -Enable -ResourceGroupName $rescueVMResourceGroup -StorageAccountName $storage
+        try {
+                Set-AzVMBootDiagnostic -VM $getRescueVM -Enable -ResourceGroupName $rescueVMResourceGroup -StorageAccountName $storage.StorageAccountName
+        }
+        catch {
+                Write-Host "Could not enable boot diagnostics, please enable manually!"
+                Write-Host $Error
+        }       
 }
 # az vm boot-diagnostics enable --name $rescueVMName --resource-group $rescueVMResourceGroup --storage https://mystor.blob.core.windows.net/
 
