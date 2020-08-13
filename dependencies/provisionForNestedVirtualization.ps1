@@ -4,7 +4,7 @@
 # Make sure you have enabled Hyper-V first
 # Copied from the following Git repo
 # https://github.com/Azure/azure-devtestlab/blob/master/samples/ClassroomLabs/Scripts/HyperV/SetupForNestedVirtualization.ps1
-# More info:
+# More info: https://docs.microsoft.com/en-us/azure/lab-services/how-to-enable-nested-virtualization-template-vm-using-script
 #
 ###########################################################################################################################################################
 
