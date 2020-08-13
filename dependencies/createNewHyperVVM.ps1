@@ -22,6 +22,3 @@ Get-Disk 2 | Add-VMHardDiskDrive -VMName $vmName;
 
 # Start VM
 Start-VM -Name $vmName;
-
-# Connect to the virtual machine. REMOVED BECAUSE IT APPEARS TO LOCK THE INVOKE-AZVMRUNCOMMAND
-# VMConnect.exe
