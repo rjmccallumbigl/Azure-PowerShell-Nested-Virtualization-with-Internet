@@ -22,3 +22,6 @@ Get-Disk 2 | Add-VMHardDiskDrive -VMName $vmName;
 
 # Start VM
 Start-VM -Name $vmName;
+
+# Connect to the virtual machine
+VMConnect.exe
