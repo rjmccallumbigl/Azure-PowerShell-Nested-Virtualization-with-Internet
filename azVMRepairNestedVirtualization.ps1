@@ -62,7 +62,7 @@ try {
         $rescueVM = az vm repair create -g $resourceGroupName -n $vmName --repair-username $rescueUsername --repair-password $rescuePassword --verbose
 }
 catch {
-        Write-Host $Error
+        Write-Host $Error[0]
         return
 }
 
@@ -88,7 +88,7 @@ if ($storage) {
         }
         catch {
                 Write-Host "Could not enable boot diagnostics, please enable manually!"
-                Write-Host $Error
+                Write-Host $Error[0]
         }       
 }
 
