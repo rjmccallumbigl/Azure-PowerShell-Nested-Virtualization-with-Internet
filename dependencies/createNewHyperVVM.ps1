@@ -6,7 +6,7 @@
 ###########################################################################################################################################################
 
 # Get current switch, should have been created after running .\dependencies\provisionForNestedVirtualization.ps1
-$vmswitch=Get-VMSwitch
+$vmswitch = Get-VMSwitch
 
 # Set Hyper V VM name
 $vmName = "newRescueVM";
